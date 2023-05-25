@@ -1,0 +1,9 @@
+{% load static %}
+
+{% for laptop in laptops %}
+    <p>Leverandør: {{laptop.leverandor}}</p>
+    <p>Modell: {{laptop.modell}}</p>
+    <p>Serienummer: {{laptop.serienummer}}</p>
+    <p>Status: {{laptop.status}}</p>
+    <p>Notater :{{laptop.notater}}</p>
+{% endfor %}
