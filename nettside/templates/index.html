@@ -1,9 +1,86 @@
 {% load static %}
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<style>
+    .errorlist > ul > li {
+        color: red !important;
+    }
+
+    .detail {
+        display: none !important;
+        position: absolute;
+        top: 20px;
+        z-index: 999;
+    }
+    .shown {
+        display: block !important;
+    }
+    .list {
+        max-height: 550px !important;
+        overflow: auto;
+    }
+</style>
+
 {% for laptop in laptops %}
-    <p>Leverandør: {{laptop.leverandor}}</p>
-    <p>Modell: {{laptop.modell}}</p>
-    <p>Serienummer: {{laptop.serienummer}}</p>
-    <p>Status: {{laptop.status}}</p>
-    <p>Notater :{{laptop.notater}}</p>
+    <div class="col p-2 d-flex flex-column justify-content-between card mb-5 detail detail{{forloop.counter}}" onclick="this.classList.remove('shown')">
+        <p><strong>Merke</strong> : {{laptop.merke}}</p>
+        <p><strong>Modell</strong> : {{laptop.modell}}</p>
+        <p><strong>Serienummer</strong> : {{laptop.serienummer}}</p>
+        <p><strong>Status</strong> : {{laptop.get_status_display}}</p>
+        <p><strong>Lagringskapasitet GB</strong> : {{laptop.lagringskapasitet}}</p>
+        <p><strong>RAM</strong> : {{laptop.RAM}}</p>
+        <p><strong>CPU</strong> : {{laptop.CPU}}</p>
+        <p><strong>Operativsystem</strong> : {{laptop.operativsystem}}</p>
+        {% if laptop.notater != None %}
+            <p><strong>Notater</strong> : {{laptop.notater}}</p>
+        {% else %}
+        <p><strong>Notater</strong> : Ingen notater. </p>
+        {% endif %}
+    </div>
 {% endfor %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h1 class="mb-5">Bærbare PC-er</h1>
+            <div class="list">
+                {% for laptop in laptops %}
+                    <div class="col p-2 d-flex flex-column justify-content-between card mb-5" onclick="showSelf({{forloop.counter}})">
+                        <p><strong>Merke</strong> : {{laptop.merke}}</p>
+                        <p><strong>Modell</strong> : {{laptop.modell}}</p>
+                        <p><strong>Status</strong> : {{laptop.get_status_display}}</p>
+                        {% if laptop.notater != None %}
+                            <p><strong>Notater</strong> : {{laptop.notater}}</p>
+                        {% else %}
+                        <p><strong>Notater</strong> : Ingen notater. </p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-6">
+            
+            <form action="" method="POST" class="d-flex flex-column">
+                {% csrf_token %}
+                <h1>legg til ny Laptop</h1>
+                
+                    {{form}}
+
+                <button class="btn btn-success col-2 mt-5" onclick="this.form.submit()">Lagre</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+function showSelf(n){
+    let divToShow = document.querySelector(`.detail${n}`)
+    divToShow.classList.add("shown")
+}
+
+</script>

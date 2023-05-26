@@ -3,7 +3,7 @@ from django.db import models
 # Samme som "CREATE TABLE Laptop"
 class Laptop(models.Model):
     # leverandor varchar(20)
-    leverandor = models.CharField(max_length=20)
+    merke = models.CharField(max_length=20)
     modell = models.CharField(max_length=20)
 
     # IntegerField() trenger ikke max_length keywordet
@@ -21,5 +21,10 @@ class Laptop(models.Model):
     # blank og null gør at dette feltet blir ikke-obligatorisk å fylle ut.
     notater = models.CharField(max_length=1000, blank=True, null=True)
 
+    lagringskapasitet = models.IntegerField()
+    CPU = models.CharField(max_length=100)
+    RAM = models.CharField(max_length=100)
+    operativsystem = models.CharField(max_length=100)
+
     def __str__(self):
-        return f"{self.leverandor} {self.modell} {self.status}"
+        return f"{self.merke} {self.modell} {self.status}"
